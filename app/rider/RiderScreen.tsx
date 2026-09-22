@@ -39,6 +39,7 @@ export default function RiderScreen({ email }: { email: string }) {
   const [falsoPositivoAviso, setFalsoPositivoAviso] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const lastProcessedTimestamp = useRef<number | null>(null);
+  const creatingAlertRef = useRef(false);
   const connectivityMode: ConnectivityMode = connectivityLimitada
     ? "limitada"
     : "normal";
@@ -58,12 +59,17 @@ export default function RiderScreen({ email }: { email: string }) {
   // abre la ventana de 15s. No dispara SOS directo — el rider confirma
   // o cancela primero.
   useEffect(() => {
-    if (!lastEvent || pendingAlert) return;
+    if (!lastEvent || pendingAlert || creatingAlertRef.current) return;
     if (lastEvent.timestamp === lastProcessedTimestamp.current) return;
     lastProcessedTimestamp.current = lastEvent.timestamp;
 
     const result = classifyEvent(lastEvent);
     if (result.clasificacion === "posible_caida" && result.confianza === "alta") {
+      // Lock síncrono: `pendingAlert` (estado) solo se actualiza cuando
+      // resuelve createSosEvent, así que sin este ref un segundo evento de
+      // alta confianza llegando antes de esa respuesta creaba una segunda
+      // alerta duplicada — bug real encontrado en el pase mecánico.
+      creatingAlertRef.current = true;
       createSosEvent({
         triggerType: "auto",
         sourceConfidence: result.confianza,
@@ -71,7 +77,10 @@ export default function RiderScreen({ email }: { email: string }) {
         autoActivate: false,
       })
         .then((row) => setPendingAlert({ id: row.id, secondsLeft: CONFIRM_WINDOW_SECONDS }))
-        .catch((e) => setError(e instanceof Error ? e.message : "Error al crear alerta"));
+        .catch((e) => setError(e instanceof Error ? e.message : "Error al crear alerta"))
+        .finally(() => {
+          creatingAlertRef.current = false;
+        });
     }
   }, [lastEvent, pendingAlert, connectivityMode]);
 
@@ -181,7 +190,8 @@ export default function RiderScreen({ email }: { email: string }) {
         SOS
       </button>
       <p className="mt-2 text-center text-xs text-neutral-500">
-        Sin registro de placa ni ruta. Un toque activa la alerta.
+        Sin registro de placa ni ruta. Un toque activa la alerta —
+        funciona aunque no hayas encendido el sensor.
       </p>
 
       {error && (
