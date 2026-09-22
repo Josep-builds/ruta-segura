@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function RiderHome() {
   const supabase = await createClient();
@@ -20,9 +21,16 @@ export default async function RiderHome() {
       <h1 className="text-3xl font-bold">Hola, {user.email}</h1>
       <p className="mt-4 text-lg leading-relaxed">
         Tu sesión está activa y solo tú puedes ver tus propios eventos
-        (Row Level Security). El sensor, el botón SOS y el mapa se agregan
-        en las siguientes iteraciones del piloto.
+        (Row Level Security). El botón SOS y el mapa se agregan en las
+        siguientes iteraciones del piloto.
       </p>
+
+      <Link
+        href="/rider/debug"
+        className="mt-6 inline-block text-sm font-semibold text-neutral-700 underline"
+      >
+        Ver debug de telemetría →
+      </Link>
     </main>
   );
 }
