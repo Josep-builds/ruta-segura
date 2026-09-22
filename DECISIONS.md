@@ -69,6 +69,12 @@
    (activar sensor, entender "confianza: Media") no mostraron fricción
    grave.
 
+### Deploy #2
+
+Hecho. `https://ruta-segura-peach.vercel.app` — `/`, `/entrar`,
+`/dashboard` verificados en 200 después del deploy. Van dos deploys
+reales a producción (F1 y este), cumpliendo el mínimo del brief.
+
 ### Qué falta para la próxima sesión
 
 - Correr `docs/COMBINED_MIGRATION.sql` ya se hizo (confirmado por el
@@ -77,8 +83,11 @@
   (ver punto 2 arriba).
 - Persona test con capturas de pantalla reales en un navegador (esta
   sesión lo caminó por código, no visualmente).
-- Deploy #2 a Vercel — pendiente al cierre de esta sesión, se hace
-  inmediatamente después de este commit.
+- **Repo de GitHub aún no existe** — todos los deploys se hicieron con
+  `vercel --prod` directo desde local (sesión de Vercel CLI ya
+  autenticada). El historial de commits vive solo en este repo local;
+  falta crear el repo remoto y hacer push para no perder el historial
+  si esta máquina falla.
 - Considerar: mapa real (Leaflet/OpenStreetMap) en vez del placeholder
   de "ubicación en vivo" del mockup — no se implementó, no bloqueaba
   ningún acceptance criteria de F1–F6.
