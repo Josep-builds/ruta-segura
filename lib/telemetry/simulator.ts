@@ -18,23 +18,23 @@ const CATEGORY_PROFILES: Record<
 > = {
   frenado_real: {
     speedBeforeKmh: [25, 60],
-    speedDropKmh: [20, 45],
-    accelPeakG: [0.55, 1.3],
+    speedDropKmh: [16, 45],
+    accelPeakG: [0.45, 1.3],
   },
   bache: {
     speedBeforeKmh: [15, 45],
-    speedDropKmh: [0, 4],
+    speedDropKmh: [0, 9],
     accelPeakG: [0.4, 0.95],
   },
   manejo_telefono: {
     speedBeforeKmh: [10, 35],
-    speedDropKmh: [0, 3],
+    speedDropKmh: [0, 5],
     accelPeakG: [0.35, 0.7],
   },
   parada_normal: {
     speedBeforeKmh: [15, 45],
-    speedDropKmh: [12, 40],
-    accelPeakG: [0.1, 0.35],
+    speedDropKmh: [10, 40],
+    accelPeakG: [0.1, 0.45],
   },
 };
 
