@@ -148,7 +148,7 @@ export default function RiderScreen({ email }: { email: string }) {
               Confianza del sistema:{" "}
               <span className="font-semibold text-neutral-700">Media</span> —
               no cubre todos los casos.{" "}
-              <Link href="#confianza" className="underline">
+              <Link href="/dashboard#confianza" className="underline">
                 Ver límites
               </Link>
             </p>
