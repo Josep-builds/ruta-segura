@@ -84,11 +84,12 @@ reales a producción (F1 y este), cumpliendo el mínimo del brief.
 - Persona test con capturas de pantalla reales en un navegador (esta
   sesión lo caminó por código, no visualmente).
 - ~~Repo de GitHub aún no existe~~ — hecho: `origin` apunta a
-  `https://github.com/Josep-builds/ruta-segura.git`, los 10 commits ya
-  están en `main` remoto. El proyecto de Vercel sigue sin conectarse al
-  repo (los deploys se hicieron con `vercel --prod` directo desde
-  local) — conectarlo es opcional, daría auto-deploy en cada push pero
-  no es requisito del brief.
+  `https://github.com/Josep-builds/ruta-segura.git`, historial completo
+  en `main` remoto.
+- ~~Proyecto de Vercel sin conectar al repo~~ — hecho:
+  `vercel git connect` conectado. Desde ahora, cada `git push` a `main`
+  dispara un deploy automático en Vercel (ya no hace falta
+  `vercel --prod` manual desde local para producción).
 - Considerar: mapa real (Leaflet/OpenStreetMap) en vez del placeholder
   de "ubicación en vivo" del mockup — no se implementó, no bloqueaba
   ningún acceptance criteria de F1–F6.
