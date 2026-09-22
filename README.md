@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ruta Segura
 
-## Getting Started
+Piloto académico de instrumentación de seguridad para repartidores en
+motocicleta en Ciudad de México. **No es una app de ride-hailing.** Todos
+los datos de riders son simulados y se etiquetan en pantalla como tales.
 
-First, run the development server:
+Ver [`docs/PACKET.md`](docs/PACKET.md) para el problema, el usuario exacto,
+la arquitectura y el alcance (qué NO se construye).
+
+## Stack
+
+Next.js (App Router) + Supabase (Postgres, Auth, Row Level Security) +
+Vercel. Solo capas gratuitas.
+
+## Desarrollo local
 
 ```bash
+cp .env.local.example .env.local   # llena con tus keys de Supabase
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Seguridad
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Row Level Security activo desde el primer schema (`supabase/migrations/`):
+  un rider solo lee/escribe su propia fila.
+- Ninguna API key vive en el repo — todo en variables de entorno de Vercel
+  / `.env.local` (ignorado por git).
+- La tabla de eventos de sensor está aislada de cualquier tabla o endpoint
+  de asignación de pedidos o calificación del rider — decisión de diseño
+  explícita, no un detalle técnico.
+- El dashboard público (`/dashboard`) solo expone agregados, nunca eventos
+  identificables de un rider individual.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deploy
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Vercel, conectado a este repo. Variables de entorno requeridas:
+`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
